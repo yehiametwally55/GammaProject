@@ -1,4 +1,5 @@
 # GammaProject
+**Version:** 1.0.0
 Gamma Function Calculator
 Overview
 The Gamma Function Calculator is a simple Java-based graphical user interface (GUI) application that computes the Gamma function for a given input. The application is built using Java Swing and incorporates custom implementations of mathematical functions such as square root, power, sine, logarithm, and exponential to provide accurate results.
