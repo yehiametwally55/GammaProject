@@ -1,11 +1,5 @@
 package com.mycompany.gammaproject;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
 /**
  * GammaProject - A simple GUI-based application to compute the Gamma function.
  * <p>
@@ -22,92 +16,92 @@ public class GammaProject {
     /**
      * Width of the application frame in pixels.
      */
-    private static final int FRAME_WIDTH = 400;
+    public static final int FRAME_WIDTH = 400;
 
     /**
      * Height of the application frame in pixels.
      */
-    private static final int FRAME_HEIGHT = 300;
+    public static final int FRAME_HEIGHT = 300;
 
     /**
      * X-coordinate of the label in the application frame.
      */
-    private static final int LABEL_X = 50;
+    public static final int LABEL_X = 50;
 
     /**
      * Y-coordinate of the label in the application frame.
      */
-    private static final int LABEL_Y = 50;
+    public static final int LABEL_Y = 50;
 
     /**
      * Width of the label in pixels.
      */
-    private static final int LABEL_WIDTH = 150;
+    public static final int LABEL_WIDTH = 150;
 
     /**
      * Height of the label in pixels.
      */
-    private static final int LABEL_HEIGHT = 25;
+    public static final int LABEL_HEIGHT = 25;
 
     /**
      * X-coordinate of the text field in the application frame.
      */
-    private static final int TEXT_FIELD_X = 200;
+    public static final int TEXT_FIELD_X = 200;
 
     /**
      * Y-coordinate of the text field in the application frame.
      */
-    private static final int TEXT_FIELD_Y = 50;
+    public static final int TEXT_FIELD_Y = 50;
 
     /**
      * Width of the text field in pixels.
      */
-    private static final int TEXT_FIELD_WIDTH = 150;
+    public static final int TEXT_FIELD_WIDTH = 150;
 
     /**
      * Height of the text field in pixels.
      */
-    private static final int TEXT_FIELD_HEIGHT = 25;
+    public static final int TEXT_FIELD_HEIGHT = 25;
 
     /**
      * X-coordinate of the button in the application frame.
      */
-    private static final int BUTTON_X = 50;
+    public static final int BUTTON_X = 50;
 
     /**
      * Y-coordinate of the button in the application frame.
      */
-    private static final int BUTTON_Y = 100;
+    public static final int BUTTON_Y = 100;
 
     /**
      * Width of the button in pixels.
      */
-    private static final int BUTTON_WIDTH = 150;
+    public static final int BUTTON_WIDTH = 150;
 
     /**
      * Height of the button in pixels.
      */
-    private static final int BUTTON_HEIGHT = 25;
+    public static final int BUTTON_HEIGHT = 25;
 
     /**
      * X-coordinate of the result label in the application frame.
      */
-    private static final int RESULT_LABEL_X = 50;
+    public static final int RESULT_LABEL_X = 50;
 
     /**
      * Y-coordinate of the result label in the application frame.
      */
-    private static final int RESULT_LABEL_Y = 150;
+    public static final int RESULT_LABEL_Y = 150;
 
     /**
      * Width of the result label in pixels.
      */
-    private static final int RESULT_LABEL_WIDTH = 300;
+    public static final int RESULT_LABEL_WIDTH = 300;
 
     /**
      * Height of the result label in pixels.
      */
-    private static final int RESULT_LABEL_HEIGHT = 25;
+    public static final int RESULT_LABEL_HEIGHT = 25;
 
     /**
      * Lanczos coefficients for the series summation to compute A(x).
@@ -129,11 +123,6 @@ public class GammaProject {
     private static final double PI = Math.PI;
 
     /**
-     * Value of the mathematical constant E.
-     */
-    private static final double E = Math.E;
-
-    /**
      * Small value used as the tolerance for floating-point comparisons.
      */
     private static final double EPSILON = 1e-15;
@@ -149,7 +138,13 @@ public class GammaProject {
         final double limit = 0.5;
         if (x < limit) {
             // Use reflection formula for x < 0.5
-            return Math.log(PI / (customSin(PI * x) * logGamma(1 - x)));
+            double sinValue = customSin(PI * x);
+            double gammaValue = logGamma(1 - x);
+
+            if (sinValue == 0 || gammaValue == 0) {
+                throw new ArithmeticException("Denominator is zero, cannot compute the logarithm.");
+            }
+            return Math.log(PI / (sinValue * gammaValue));
         }
 
         x -= 1;
@@ -296,93 +291,7 @@ public class GammaProject {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
-
-        JFrame frame = new JFrame("Gamma Function Calculator");
-        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-        int fourteen = 14; // width
-        JLabel label = new JLabel("Enter a number:");
-        label.setBounds(LABEL_X, LABEL_Y, LABEL_WIDTH, LABEL_HEIGHT);
-        label.setFont(new Font("Arial", Font.PLAIN, fourteen));
-        frame.add(label);
-
-        JTextField textField = new JTextField();
-        textField.setBounds(TEXT_FIELD_X, TEXT_FIELD_Y, TEXT_FIELD_WIDTH,
-                TEXT_FIELD_HEIGHT);
-        label.setLabelFor(textField);
-        textField.getAccessibleContext().setAccessibleName("Number Input");
-        textField.getAccessibleContext().setAccessibleDescription(
-                "Input field to enter a number for which the Gamma function "
-                        +
-                        "will be calculated.");
-        frame.add(textField);
-
-        JButton computeButton =
-                new JButton("Compute Gamma");
-        computeButton.setBounds(
-                BUTTON_X, BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT
-        );
-        int sixteen = 16;
-        computeButton.setFont(new Font("Arial", Font.BOLD, sixteen));
-        computeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        computeButton.setMnemonic(KeyEvent.VK_C);
-        computeButton.setToolTipText("Compute Gamma (Alt+C)");
-        frame.add(computeButton);
-        int hundredAndSixty = 160;
-        JButton resetButton = new JButton("Reset");
-        resetButton.setBounds(BUTTON_X
-                        +
-                        hundredAndSixty, BUTTON_Y, BUTTON_WIDTH,
-                BUTTON_HEIGHT);
-        resetButton.setFont(new Font("Arial", Font.PLAIN, sixteen));
-        resetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        resetButton.setMnemonic(KeyEvent.VK_R);
-        resetButton.setToolTipText("Reset the form (Alt+R)");
-        frame.add(resetButton);
-
-        JLabel resultLabel = new JLabel("Result:");
-        resultLabel.setBounds(RESULT_LABEL_X, RESULT_LABEL_Y,
-                RESULT_LABEL_WIDTH, RESULT_LABEL_HEIGHT);
-        resultLabel.setFont(new Font("Arial", Font.PLAIN, fourteen));
-        resultLabel.getAccessibleContext().setAccessibleName("Result Label");
-        resultLabel.getAccessibleContext().setAccessibleDescription(
-                "Displays the result of the Gamma function computation.");
-        frame.add(resultLabel);
-
-        computeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String input = textField.getText();
-                resultLabel.setText("Calculating...");
-                try {
-                    double x = Double.parseDouble(input);
-                    if (x < 0) {
-                        resultLabel.setText("Please enter a positive number.");
-                        return;
-                    }
-                    double gammaValue = logGamma(x);
-                    resultLabel.setText("Gamma("
-                            +
-                            x
-                            + ") = "
-                            +
-                            customExp(gammaValue));
-                } catch (NumberFormatException ex) {
-                    resultLabel.setText("Please enter a valid number.");
-                }
-            }
-        });
-
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                textField.setText("");
-                resultLabel.setText("Result:");
-            }
-        });
-
-        frame.setVisible(true);
+        GammaProject gammaProject = new GammaProject();
+        new GUI(gammaProject);
     }
-
     }
